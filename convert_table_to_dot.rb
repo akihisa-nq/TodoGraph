@@ -670,6 +670,11 @@ if __FILE__ == $0
 	files = ARGV.shift
 	out_path = ARGV.shift
 
+	if File.extname(out_path) != ".dot"
+		$stderr << "output file must be dot file\n"
+		exit 1
+	end
+
 	db = LifeMap::DataBase.new
 	Dir.glob( files ) do |name|
 		File.open( name, "r:utf-8" ) do |file|
@@ -718,7 +723,7 @@ if __FILE__ == $0
 		end
 	end
 
-	File.open( "map.dot", "w" ) do |file|
+	File.open( out_path, "w" ) do |file|
 		LifeMap::DotWriter.new( file ).write( db )
 	end
 end
